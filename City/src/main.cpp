@@ -1,12 +1,15 @@
-#include <imgui.h>
-#include <imgui-SFML.h>
-#include <SFML/Graphics.hpp>
-#include <SFML/System/Clock.hpp>
+#include "stdafx.h"
+
+#include "engine/localization/LocalizationManager.h"
 
 int main()
 {
+	Engine::LocalizationManager& LocManagerInstance = Engine::LocalizationManager::Instance();
+
+	std::string title(LocManagerInstance.NewStringFromLocKey("ENTRY_TITLE"));
+
 	sf::RenderWindow window;
-	window.create(sf::VideoMode(640, 480), "Test Window");
+	window.create(sf::VideoMode(640, 480), title.c_str());
 	ImGui::SFML::Init(window);
 
 	window.resetGLStates();

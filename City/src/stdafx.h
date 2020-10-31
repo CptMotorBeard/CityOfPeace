@@ -16,4 +16,15 @@
 #include <unordered_set>
 #include <unordered_map>
 
+// ImGui
+#include <imgui.h>
+#include <imgui-SFML.h>
+
+// SFML
+#include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
+
+// sqlite
+#include <sqlite3.h>
+
 #endif // SRC_STDAFX_H
