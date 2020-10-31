@@ -144,6 +144,17 @@ basicVendorProject "yaml"
 	copyOutputToMain()
 	defaultConfigurations()
 	
+basicVendorProject "sqlite3"
+	kind "StaticLib"
+	files
+	{
+		vendorPath .. "/%{prj.name}/*.h",
+		vendorPath .. "/%{prj.name}/*.c"
+	}
+	
+	copyOutputToMain()
+	defaultConfigurations()
+	
 project "City"
 	location "City"
 	kind "ConsoleApp"
@@ -154,6 +165,6 @@ project "City"
 	
 	files { "%{prj.name}/src/**.h", "%{prj.name}/src/**.cpp" }	
 	includedirs { vendorPath .. "/imgui", vendorPath .. "/sfml/include", vendorPath .. "/yaml/include" }	
-	links { "imgui-sfml", "imgui", "yaml", "sfml-main", "sfml-window", "sfml-system", "sfml-graphics" }
+	links { "imgui-sfml", "imgui", "yaml", "sqlite3", "sfml-main", "sfml-window", "sfml-system", "sfml-graphics" }
 		
 	defaultConfigurations()
