@@ -179,7 +179,8 @@ project "City"
 		vendorPath .. "/imgui-sfml",
 		vendorPath .. "/sfml/include",
 		vendorPath .. "/yaml/include",
-		vendorPath .. "/sqlite3"
+		vendorPath .. "/sqlite3",
+		"%{prj.name}/src/"
 	}
 	
 	links
@@ -193,5 +194,8 @@ project "City"
 		"sfml-system",
 		"sfml-graphics"
 	}
-		
+	
+	pchheader "stdafx.h"
+	pchsource "%{prj.name}/src/stdafx.cpp"
+	
 	defaultConfigurations()
