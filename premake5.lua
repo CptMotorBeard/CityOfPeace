@@ -160,7 +160,7 @@ basicVendorProject "sqlite3"
 	defaultConfigurations()
 	
 project "City"
-	location "City"
+	location "City/project"
 	kind "ConsoleApp"
 	language "C++"
 	
