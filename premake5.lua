@@ -70,6 +70,7 @@ sfmlProject "graphics"
 		sfmlPath .. "/extlibs/headers/freetype2",
 		sfmlPath .. "/extlibs/headers/libfreetype/windows"
 	}
+	copyOutputToMain()
 	
 sfmlProject "system"
         files { sfmlPath .. "/src/SFML/System/*.cpp", sfmlPath .. "/src/SFML/System/Win32/*.cpp"}
@@ -89,7 +90,8 @@ sfmlProject "system"
 			"uuid",
 			"comdlg32",
 			"advapi32"
-		}	
+		}
+		copyOutputToMain()
 
 sfmlProject "window"
         files { sfmlPath .. "/src/SFML/Window/*.cpp", sfmlPath .. "/src/SFML/Window/Win32/*.cpp" }
@@ -102,11 +104,13 @@ sfmlProject "window"
 			sfmlPath .. "/extlibs/headers/glad/include",
 			sfmlPath .. "/extlibs/headers/vulkan"
 		}
+		copyOutputToMain()
 
 basicVendorProject "sfml-main"
 	kind "StaticLib"
 	files { sfmlPath .. "/src/SFML/Main/MainWin32.cpp" }
 	includedirs { sfmlPath .. "/include", sfmlPath .. "/src" }
+	copyOutputToMain()
 
 basicVendorProject "imgui"
 	kind "StaticLib"
@@ -128,7 +132,7 @@ basicVendorProject "imgui-sfml"
 	}
 
 	includedirs { vendorPath .. "/imgui", vendorPath .. "/sfml/include" }	
-	links { "sfml-main", "imgui" }
+	links { "sfml-main", "imgui", "opengl32" }
 	copyOutputToMain()
 	defaultConfigurations()
 
@@ -163,8 +167,31 @@ project "City"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 	
-	files { "%{prj.name}/src/**.h", "%{prj.name}/src/**.cpp" }	
-	includedirs { vendorPath .. "/imgui", vendorPath .. "/sfml/include", vendorPath .. "/yaml/include" }	
-	links { "imgui-sfml", "imgui", "yaml", "sqlite3", "sfml-main", "sfml-window", "sfml-system", "sfml-graphics" }
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+	
+	includedirs
+	{
+		vendorPath .. "/imgui",
+		vendorPath .. "/imgui-sfml",
+		vendorPath .. "/sfml/include",
+		vendorPath .. "/yaml/include",
+		vendorPath .. "/sqlite3"
+	}
+	
+	links
+	{
+		"imgui",
+		"imgui-sfml",		
+		"yaml",
+		"sqlite3",
+		"sfml-main",
+		"sfml-window",
+		"sfml-system",
+		"sfml-graphics"
+	}
 		
 	defaultConfigurations()
