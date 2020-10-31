@@ -1,0 +1,12 @@
+[submodule "City/vendor/imgui"]
+	path = City/vendor/imgui
+	url = https://github.com/CptMotorBeard/imgui.git
+[submodule "City/vendor/yaml"]
+	path = City/vendor/yaml
+	url = https://github.com/CptMotorBeard/yaml-cpp.git
+[submodule "City/vendor/sfml"]
+	path = City/vendor/sfml
+	url = https://github.com/CptMotorBeard/SFML.git
+[submodule "City/vendor/imgui-sfml"]
+	path = City/vendor/imgui-sfml
+	url = https://github.com/CptMotorBeard/imgui-sfml.git
