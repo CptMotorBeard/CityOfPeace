@@ -2,6 +2,7 @@
 #ifndef SRC_LOCALIZATIONMANAGER_H
 #define SRC_LOCALIZATIONMANAGER_H
 
+#include "engine/design-patterns/Singleton.h"
 #include <string>
 
 class sqlite3;
@@ -13,25 +14,15 @@ namespace Engine
 		static const char* EN;
 	};
 
-	class LocalizationManager
+	class LocalizationManager final : public Singleton<LocalizationManager>
 	{
+		friend class Singleton<LocalizationManager>;
+
 	public:		
 		bool UseLocalizedString;
-
-		~LocalizationManager();
 		void SetLanguage(const char*& newLanguage);
 		std::string NewStringFromLocKey(const std::string& key);
-		static LocalizationManager& Instance()
-		{
-			static LocalizationManager localizationManager;
-			return localizationManager;
-		}
-
-		LocalizationManager(const LocalizationManager&) = delete;
-		LocalizationManager& operator=(const LocalizationManager&) = delete;
-		LocalizationManager(const LocalizationManager&&) = delete;
-		LocalizationManager& operator=(const LocalizationManager&&) = delete;
-
+		virtual ~LocalizationManager();
 	private:
 		sqlite3* m_LocalizationDatabase;
 		char m_Language[3];
