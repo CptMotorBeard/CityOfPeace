@@ -41,4 +41,4 @@ namespace Engine
 	};
 }
 
-#endif // SRC_LOCALIZATIONMANAGER_H
+#endif // !SRC_LOCALIZATIONMANAGER_H
