@@ -179,6 +179,7 @@ project "City"
 		vendorPath .. "/imgui-sfml",
 		vendorPath .. "/sfml/include",
 		vendorPath .. "/yaml/include",
+		vendorPath .. "/nlohmann",
 		vendorPath .. "/sqlite3",
 		"%{prj.name}/src/"
 	}
