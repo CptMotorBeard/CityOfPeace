@@ -4,9 +4,21 @@
 
 #include "DisplayLog.h"
 
+DisplayLog::DisplayLog()
+{
+	m_Logs.reserve(kLogSize);
+	m_HasNewLog = false;
+}
+
 void DisplayLog::AddString(const std::string& text)
 {
-	m_String = text;
+	while (m_Logs.size() >= kLogSize)
+	{
+		m_Logs.erase(m_Logs.begin());
+	}
+
+	m_Logs.emplace_back(text);
+	m_HasNewLog = true;
 }
 
 void DisplayLog::BuildDisplayLog(const sf::RenderWindow& window)
@@ -21,7 +33,21 @@ void DisplayLog::BuildDisplayLog(const sf::RenderWindow& window)
 	++styleCount;
 
 	ImGui::Begin("Log");
-	ImGui::DisplayFormattedText(m_String, ImGui::GetWindowContentRegionWidth());
+
+	float regionWidth = ImGui::GetWindowContentRegionWidth();
+
+	for (const auto& log : m_Logs)
+	{
+		ImGui::DisplayFormattedText(log, regionWidth);
+	}
+
+	if (m_HasNewLog && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+	{		
+		ImGui::SetScrollHereY(1.0f);
+
+		m_HasNewLog = false;
+	}
+
 	ImGui::End();
 
 	ImGui::PopStyleVar(styleCount);

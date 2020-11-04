@@ -3,7 +3,6 @@
 #define SRC_LOCALIZATIONMANAGER_H
 
 #include "engine/design-patterns/Singleton.h"
-#include <string>
 
 class sqlite3;
 

@@ -26,7 +26,6 @@ namespace ImGui
 			ImGui::TextUnformatted(line.c_str());
 		}
 
-		ImGui::SameLine();
 		return lineLength;
 	}
 
@@ -45,6 +44,11 @@ namespace ImGui
 		float actualWidth = textSize.x + linePos;
 		if (lines > 1 || (wrap_width > 0 && actualWidth > wrap_width))
 		{
+			if (linePos != 0)
+			{
+				ImGui::SameLine();
+			}
+
 			if (isColoured)
 			{
 				ImGui::TextColored(colour, line.c_str());
@@ -105,6 +109,24 @@ namespace ImGui
 		return false;
 	}	
 
+	void CheckColour(std::string& token, bool& isColoured, bool& isEndColour, bool& forceLine, ImVec4& colour)
+	{
+		if (CheckColourAndFormatStart(token, colour))
+		{
+			isColoured = true;
+			forceLine = true;
+		}
+
+		if (CheckColourAndFormatEnd(token))
+		{
+			isEndColour = true;
+		}
+		else
+		{
+			isEndColour = false;
+		}
+	}
+
 	void DisplayFormattedText(const std::string& line, float wrap_width)
 	{
 		const char* delimiter = " ";
@@ -128,17 +150,7 @@ namespace ImGui
 			token = line.substr(last, next - last);
 			last = next + 1;
 
-			if (CheckColourAndFormatStart(token, colour))
-			{
-				isColoured = true;
-				endColour = false;
-				forceLine = true;
-			}
-
-			if (CheckColourAndFormatEnd(token))
-			{
-				endColour = true;
-			}
+			CheckColour(token, isColoured, endColour, forceLine, colour);
 
 			if (forceLine)
 			{
@@ -161,6 +173,15 @@ namespace ImGui
 		}
 
 		token = line.substr(last);
-		BuildAndDisplayLine(output, token, isColoured, colour, startPos, wrap_width);
+		CheckColour(token, isColoured, endColour, forceLine, colour);
+
+		bool newLine = BuildAndDisplayLine(output, token, isColoured, colour, startPos, wrap_width);
+
+		if (output != "")
+		{
+			ForceDisplayLine(output, newLine, isColoured, colour);
+		}
+
+		ImGui::NewLine();
 	}
 }
