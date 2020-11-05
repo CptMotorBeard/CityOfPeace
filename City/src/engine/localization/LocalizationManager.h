@@ -21,12 +21,12 @@ namespace Engine
 		bool UseLocalizedString;
 		void SetLanguage(const char*& newLanguage);
 		std::string NewStringFromLocKey(const std::string& key);
-		virtual ~LocalizationManager();
 	private:
 		sqlite3* m_LocalizationDatabase;
 		char m_Language[3];
 
 		LocalizationManager();
+		~LocalizationManager();
 		bool OpenDatabase();
 	};
 }

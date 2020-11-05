@@ -18,6 +18,5 @@ public:
 
 protected:
 	Singleton() {};
-	virtual ~Singleton() {};
 };
 #endif // !SRC_SINGLETON_H

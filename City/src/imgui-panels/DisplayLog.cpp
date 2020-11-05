@@ -21,7 +21,7 @@ void DisplayLog::AddString(const std::string& text)
 	m_HasNewLog = true;
 }
 
-void DisplayLog::BuildDisplayLog(const sf::RenderWindow& window)
+void DisplayLog::BuildPanel(const sf::RenderWindow& window)
 {
 	int styleCount = 0;
 	
@@ -32,7 +32,13 @@ void DisplayLog::BuildDisplayLog(const sf::RenderWindow& window)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0);
 	++styleCount;
 
-	ImGui::Begin("Log");
+	ImGui::Begin("Log", NULL, ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar);
+	if (ImGui::BeginMenuBar())
+	{
+		ImGui::MenuItem("Test");
+
+		ImGui::EndMenuBar();
+	}
 
 	float regionWidth = ImGui::GetWindowContentRegionWidth();
 
