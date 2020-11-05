@@ -3,6 +3,7 @@
 #include "engine/localization/LocalizationManager.h"
 
 #include "imgui-panels/DisplayLog.h"
+#include "imgui-panels/ImGuiPanelManager.h"
 
 int main()
 {
@@ -15,6 +16,7 @@ int main()
 
 	Engine::LocalizationManager& m_LocManagerInstance = Engine::LocalizationManager::Instance();
 	DisplayLog& m_DisplayLogInstance = DisplayLog::Instance();
+	ImGuiPanelManager& m_ImGuiPanelManager = ImGuiPanelManager::Instance();
 
 	m_DisplayLogInstance.AddString(longString);
 
@@ -32,9 +34,11 @@ int main()
 	ImGui::SFML::Init(window);
 
 	window.resetGLStates();
-	window.setFramerateLimit(24);
+	window.setFramerateLimit(60);
 
 	sf::Clock deltaClock;
+
+	bool b_IsDebugMode = false;
 
 	while (window.isOpen())
 	{
@@ -52,12 +56,28 @@ int main()
 				sf::FloatRect visibleArea(0, 0, (float)sfEvent.size.width, (float)sfEvent.size.height);
 				window.setView(sf::View(visibleArea));
 			}
+			else if (sfEvent.type == sf::Event::MouseButtonReleased && sfEvent.mouseButton.button == sf::Mouse::Button::Left)
+			{
+				std::cout << "Click" << std::endl;
+			}
+			else if (sfEvent.type == sf::Event::KeyReleased && sfEvent.key.code == sf::Keyboard::Tilde)
+			{
+				b_IsDebugMode = !b_IsDebugMode;
+			}
 		}
 
-		uint32_t deltaTime = deltaClock.getElapsedTime().asMicroseconds();
+		uint32_t deltaTime = deltaClock.getElapsedTime().asMilliseconds();
 		ImGui::SFML::Update(window, deltaClock.restart());
+		m_ImGuiPanelManager.Update(deltaTime);
 
-		m_DisplayLogInstance.BuildDisplayLog(window);
+		if (!b_IsDebugMode)
+		{
+			m_ImGuiPanelManager.BuildVisiblePanels(window);
+		}
+		else
+		{
+			m_ImGuiPanelManager.BuildAllPanels(window);
+		}
 
 		window.clear();
 		ImGui::SFML::Render(window);
