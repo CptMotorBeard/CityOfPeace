@@ -2,6 +2,7 @@
 
 #include "engine/imgui-addons/imgui-wrappedFormattedText.h"
 
+#include "CharacterPanel.h"
 #include "DisplayLog.h"
 
 DisplayLog::DisplayLog()
@@ -23,22 +24,22 @@ void DisplayLog::AddString(const std::string& text)
 
 void DisplayLog::BuildPanel(const sf::RenderWindow& window)
 {
-	int styleCount = 0;
-	
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
-	++styleCount;
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(15, 5));
-	++styleCount;
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0);
-	++styleCount;
-
-	ImGui::Begin("Log", NULL, ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar);
+	if (!ImGui::Begin("Log", (bool*)0, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar))
+	{
+		ImGui::End();
+		return;
+	}
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 20);
 	if (ImGui::BeginMenuBar())
 	{
-		ImGui::MenuItem("Test");
+		if (ImGui::MenuItem("Characters"))
+		{
+			CharacterPanel::Instance().IsVisible = true;
+		}
 
 		ImGui::EndMenuBar();
 	}
+	ImGui::PopStyleVar();
 
 	float regionWidth = ImGui::GetWindowContentRegionWidth();
 
@@ -55,6 +56,4 @@ void DisplayLog::BuildPanel(const sf::RenderWindow& window)
 	}
 
 	ImGui::End();
-
-	ImGui::PopStyleVar(styleCount);
 }

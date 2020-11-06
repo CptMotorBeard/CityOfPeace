@@ -1,17 +1,21 @@
 #include "stdafx.h"
 
 #include "BaseImGuiPanel.h"
+#include "CharacterPanel.h"
 #include "DisplayLog.h"
 #include "DebugPanel.h"
 #include "ImGuiPanelManager.h"
 
 ImGuiPanelManager::ImGuiPanelManager()
 {
+	m_Dt = 0;
+
 	auto& displayLog = DisplayLog::Instance();
 	displayLog.IsVisible = true;
 
 	m_AllPanels.emplace_back(&displayLog);
 	m_AllPanels.emplace_back(&DebugPanel::Instance());
+	m_AllPanels.emplace_back(&CharacterPanel::Instance());
 }
 
 ImGuiPanelManager::~ImGuiPanelManager()

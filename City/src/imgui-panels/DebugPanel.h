@@ -15,7 +15,7 @@ public:
 private:
 	const float kDistance = 10.0f;
 
-	uint32_t m_Dt;
+	uint32_t m_Dt = 0;
 	uint8_t m_Corner = 0;
 
 	float m_FrameValues[90] = {};
