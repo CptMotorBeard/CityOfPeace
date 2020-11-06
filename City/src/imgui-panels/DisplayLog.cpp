@@ -37,6 +37,10 @@ void DisplayLog::BuildPanel(const sf::RenderWindow& window)
 			CharacterPanel::Instance().IsVisible = true;
 		}
 
+		if (ImGui::MenuItem("Town")) {}
+		if (ImGui::MenuItem("World")) {}
+		if (ImGui::MenuItem("End Turn")) {}
+
 		ImGui::EndMenuBar();
 	}
 	ImGui::PopStyleVar();

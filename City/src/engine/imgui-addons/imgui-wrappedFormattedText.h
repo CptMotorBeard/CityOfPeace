@@ -4,7 +4,7 @@
 
 namespace ImGui
 {
-	void DisplayFormattedText(const std::string& line, float wrap_width = -1);
+	void DisplayFormattedText(const std::string& line, const float wrap_width = -1);
 }
 
 #endif // !SRC_IMGUI_WRAPPEDFORMATTEDTEXT_H

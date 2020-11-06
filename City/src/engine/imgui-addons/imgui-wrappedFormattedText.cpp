@@ -127,7 +127,7 @@ namespace ImGui
 		}
 	}
 
-	void DisplayFormattedText(const std::string& line, float wrap_width)
+	void DisplayFormattedText(const std::string& line, const float wrap_width)
 	{
 		const char* delimiter = " ";
 

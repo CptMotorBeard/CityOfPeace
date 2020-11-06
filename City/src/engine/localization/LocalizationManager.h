@@ -20,7 +20,7 @@ namespace Engine
 	public:		
 		bool UseLocalizedString;
 		void SetLanguage(const char*& newLanguage);
-		std::string NewStringFromLocKey(const std::string& key);
+		std::string NewStringFromLocKey(const std::string& key) const;
 	private:
 		sqlite3* m_LocalizationDatabase;
 		char m_Language[3];

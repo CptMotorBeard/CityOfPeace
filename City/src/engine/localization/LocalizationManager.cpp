@@ -49,7 +49,7 @@ namespace Engine
 		return true;
 	}
 	
-	std::string LocalizationManager::NewStringFromLocKey(const std::string& key)
+	std::string LocalizationManager::NewStringFromLocKey(const std::string& key) const
 	{
 		if (UseLocalizedString)
 		{
