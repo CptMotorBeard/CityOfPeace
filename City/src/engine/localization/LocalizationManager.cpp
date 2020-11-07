@@ -14,7 +14,7 @@ namespace SQLQuery
 	const int kLEFTMOST_COLUMN = 0;
 }
 
-namespace Engine
+namespace BeardEngine
 {
 	const char* Language::EN = "en";
 

@@ -6,7 +6,7 @@
 
 class sqlite3;
 
-namespace Engine
+namespace BeardEngine
 {
 	struct Language
 	{
