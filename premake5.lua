@@ -158,7 +158,7 @@ basicVendorProject "sqlite3"
 	
 	copyOutputToMain()
 	defaultConfigurations()
-	
+
 project "City"
 	location "City/project"
 	kind "ConsoleApp"
@@ -175,6 +175,8 @@ project "City"
 	
 	includedirs
 	{
+		vendorPath .. "/glm/",
+		vendorPath .. "/entt/src/",
 		vendorPath .. "/imgui",
 		vendorPath .. "/imgui-sfml",
 		vendorPath .. "/sfml/include",
