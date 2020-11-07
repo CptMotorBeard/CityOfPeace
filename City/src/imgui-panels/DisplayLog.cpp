@@ -24,27 +24,12 @@ void DisplayLog::AddString(const std::string& text)
 
 void DisplayLog::BuildPanel(const sf::RenderWindow& window)
 {
-	if (!ImGui::Begin("Log", (bool*)0, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoTitleBar))
+	if (!ImGui::Begin("Log", (bool*)0, ImGuiWindowFlags_NoTitleBar))
 	{
 		ImGui::End();
 		return;
 	}
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 20);
-	if (ImGui::BeginMenuBar())
-	{
-		if (ImGui::MenuItem("Characters"))
-		{
-			CharacterPanel::Instance().IsVisible = true;
-		}
-
-		if (ImGui::MenuItem("Town")) {}
-		if (ImGui::MenuItem("World")) {}
-		if (ImGui::MenuItem("End Turn")) {}
-
-		ImGui::EndMenuBar();
-	}
-	ImGui::PopStyleVar();
-
+	
 	float regionWidth = ImGui::GetWindowContentRegionWidth();
 
 	for (const auto& log : m_Logs)

@@ -2,6 +2,7 @@
 
 #include "engine/localization/LocalizationManager.h"
 
+#include "World/GameManager.h"
 #include "imgui-panels/DisplayLog.h"
 #include "imgui-panels/ImGuiPanelManager.h"
 
@@ -14,7 +15,7 @@ int main()
 		" ##FFFF00Curabitur in eros bibendum,$$ scelerisque urna ac, pharetra dui.Etiam id lacinia ante, in vestibulum neque.Nunc lacus nulla, finibus vel urna vel, sollicitudin gravida ex.Donec viverra diam ac consectetur iaculis.Donec vitae consequat elit.Quisque euismod pellentesque metus, et tristique elit vestibulum eu.Praesent semper, arcu in eleifend tempus, nisl nulla mattis orci, nec blandit diam mi vitae lorem.Proin aliquam finibus nibh quis finibus.Mauris egestas tellus libero, at commodo enim consequat vel.Cras facilisis mauris in pellentesque gravida."
 		" ##00FFFFAliquam nec arcu placerat, convallis ex ac, facilisis risus.Curabitur venenatis commodo vestibulum.$$ Curabitur eros odio, hendrerit at turpis a, condimentum rutrum arcu.Nam sapien nulla, vulputate in ipsum nec, placerat ullamcorper arcu.Ut ultricies arcu id augue volutpat elementum.Suspendisse potenti.Donec tincidunt augue vel bibendum accumsan.";
 
-	Engine::LocalizationManager& m_LocManagerInstance = Engine::LocalizationManager::Instance();
+	BeardEngine::LocalizationManager& m_LocManagerInstance = BeardEngine::LocalizationManager::Instance();
 	DisplayLog& m_DisplayLogInstance = DisplayLog::Instance();
 	ImGuiPanelManager& m_ImGuiPanelManager = ImGuiPanelManager::Instance();
 
@@ -30,7 +31,7 @@ int main()
 
 	std::string title(m_LocManagerInstance.NewStringFromLocKey("ENTRY_TITLE"));
 	sf::RenderWindow window;
-	window.create(sf::VideoMode(640, 480), title.c_str());
+	window.create(sf::VideoMode(1920, 1080), title.c_str(), sf::Style::Fullscreen);
 	ImGui::SFML::Init(window);
 
 	window.resetGLStates();
@@ -83,6 +84,11 @@ int main()
 		ImGui::SFML::Render(window);
 
 		window.display();
+
+		if (!GameManager::Instance().IsRunning())
+		{
+			window.close();
+		}
 	}
 
 	ImGui::SFML::Shutdown();

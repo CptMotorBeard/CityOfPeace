@@ -5,17 +5,22 @@
 #include "DisplayLog.h"
 #include "DebugPanel.h"
 #include "ImGuiPanelManager.h"
+#include "SidePanel.h"
 
 ImGuiPanelManager::ImGuiPanelManager()
 {
 	m_Dt = 0;
 
-	auto& displayLog = DisplayLog::Instance();
-	displayLog.IsVisible = true;
+	const size_t kTotalPanels = 4;
+	m_AllPanels.reserve(kTotalPanels);
 
-	m_AllPanels.emplace_back(&displayLog);
-	m_AllPanels.emplace_back(&DebugPanel::Instance());
 	m_AllPanels.emplace_back(&CharacterPanel::Instance());
+	m_AllPanels.emplace_back(&DisplayLog::Instance());
+	m_AllPanels.emplace_back(&DebugPanel::Instance());	
+	m_AllPanels.emplace_back(&SidePanel::Instance());
+
+	DisplayLog::Instance().IsVisible = true;
+	SidePanel::Instance().IsVisible = true;
 }
 
 ImGuiPanelManager::~ImGuiPanelManager()
