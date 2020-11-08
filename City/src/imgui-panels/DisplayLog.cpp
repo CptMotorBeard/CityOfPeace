@@ -24,24 +24,21 @@ void DisplayLog::AddString(const std::string& text)
 
 void DisplayLog::BuildPanel(const sf::RenderWindow& window)
 {
-	if (!ImGui::Begin("Log", (bool*)0, ImGuiWindowFlags_NoTitleBar))
+	if (ImGui::Begin("Log", (bool*)0, ImGuiWindowFlags_NoTitleBar))
 	{
-		ImGui::End();
-		return;
-	}
-	
-	float regionWidth = ImGui::GetWindowContentRegionWidth();
+		float regionWidth = ImGui::GetWindowContentRegionWidth();
 
-	for (const auto& log : m_Logs)
-	{
-		ImGui::DisplayFormattedText(log, regionWidth);
-	}
+		for (const auto& log : m_Logs)
+		{
+			ImGui::DisplayFormattedText(log, regionWidth);
+		}
 
-	if (m_HasNewLog && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
-	{		
-		ImGui::SetScrollHereY(1.0f);
+		if (m_HasNewLog && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+		{
+			ImGui::SetScrollHereY(1.0f);
 
-		m_HasNewLog = false;
+			m_HasNewLog = false;
+		}
 	}
 
 	ImGui::End();

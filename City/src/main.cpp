@@ -5,6 +5,7 @@
 #include "World/GameManager.h"
 #include "imgui-panels/DisplayLog.h"
 #include "imgui-panels/ImGuiPanelManager.h"
+#include "imgui-panels/OptionsMenu.h"
 
 int main()
 {
@@ -61,9 +62,16 @@ int main()
 			{
 				std::cout << "Click" << std::endl;
 			}
-			else if (sfEvent.type == sf::Event::KeyReleased && sfEvent.key.code == sf::Keyboard::Tilde)
+			else if (sfEvent.type == sf::Event::KeyReleased)
 			{
-				b_IsDebugMode = !b_IsDebugMode;
+				if (sfEvent.key.code == sf::Keyboard::Tilde)
+				{
+					b_IsDebugMode = !b_IsDebugMode;
+				}
+				else if (sfEvent.key.code == sf::Keyboard::Escape)
+				{
+					OptionsMenu::Instance().IsVisible = !OptionsMenu::Instance().IsVisible;
+				}
 			}
 		}
 

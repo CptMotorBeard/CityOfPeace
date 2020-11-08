@@ -5,18 +5,20 @@
 #include "DisplayLog.h"
 #include "DebugPanel.h"
 #include "ImGuiPanelManager.h"
+#include "OptionsMenu.h"
 #include "SidePanel.h"
 
 ImGuiPanelManager::ImGuiPanelManager()
 {
 	m_Dt = 0;
 
-	const size_t kTotalPanels = 4;
+	const size_t kTotalPanels = 5;
 	m_AllPanels.reserve(kTotalPanels);
 
 	m_AllPanels.emplace_back(&CharacterPanel::Instance());
 	m_AllPanels.emplace_back(&DisplayLog::Instance());
 	m_AllPanels.emplace_back(&DebugPanel::Instance());	
+	m_AllPanels.emplace_back(&OptionsMenu::Instance());	
 	m_AllPanels.emplace_back(&SidePanel::Instance());
 
 	DisplayLog::Instance().IsVisible = true;
@@ -35,7 +37,7 @@ void ImGuiPanelManager::Update(uint32_t dt)
 
 bool ImGuiPanelManager::AddNewPanel(BaseImGuiPanel* newPanel)
 {
-	auto existingPanel = std::find(m_AllPanels.begin(), m_AllPanels.end(), newPanel);
+	auto& existingPanel = std::find(m_AllPanels.begin(), m_AllPanels.end(), newPanel);
 
 	if (existingPanel == m_AllPanels.end())
 	{
@@ -49,7 +51,7 @@ bool ImGuiPanelManager::AddNewPanel(BaseImGuiPanel* newPanel)
 
 bool ImGuiPanelManager::RemovePanel(BaseImGuiPanel* newPanel)
 {
-	auto existingPanel = std::find(m_AllPanels.begin(), m_AllPanels.end(), newPanel);
+	auto& existingPanel = std::find(m_AllPanels.begin(), m_AllPanels.end(), newPanel);
 
 	if (existingPanel != m_AllPanels.end())
 	{
