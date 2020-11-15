@@ -2,10 +2,15 @@
 
 #include "engine/localization/LocalizationManager.h"
 
-#include "World/GameManager.h"
 #include "imgui-panels/DisplayLog.h"
 #include "imgui-panels/ImGuiPanelManager.h"
 #include "imgui-panels/OptionsMenu.h"
+#include "World/WindowManager.h"
+
+void f(sf::Event s)
+{
+	std::cout << "key press" << std::endl;
+}
 
 int main()
 {
@@ -19,6 +24,10 @@ int main()
 	BeardEngine::LocalizationManager& m_LocManagerInstance = BeardEngine::LocalizationManager::Instance();
 	DisplayLog& m_DisplayLogInstance = DisplayLog::Instance();
 	ImGuiPanelManager& m_ImGuiPanelManager = ImGuiPanelManager::Instance();
+	WindowManager& m_WindowManager = WindowManager::Instance();	
+
+	std::string title(m_LocManagerInstance.NewStringFromLocKey("ENTRY_TITLE"));
+	m_WindowManager.Initialize(sf::VideoMode(1920, 1080), title.c_str(), sf::Style::Fullscreen);
 
 	m_DisplayLogInstance.AddString(longString);
 
@@ -30,73 +39,43 @@ int main()
 	m_DisplayLogInstance.AddString("...");
 	m_DisplayLogInstance.AddString("Time for news");
 
-	std::string title(m_LocManagerInstance.NewStringFromLocKey("ENTRY_TITLE"));
-	sf::RenderWindow window;
-	window.create(sf::VideoMode(1920, 1080), title.c_str(), sf::Style::Fullscreen);
-	ImGui::SFML::Init(window);
-
-	window.resetGLStates();
-	window.setFramerateLimit(60);
-
 	sf::Clock deltaClock;
 
 	bool b_IsDebugMode = false;
 
-	while (window.isOpen())
+	m_WindowManager.KeyPressedEvent += std::function([&b_IsDebugMode](sf::Event keyEvent)
 	{
-		sf::Event sfEvent;
-		while (window.pollEvent(sfEvent))
+		std::cout << "Pressed: " << keyEvent.key.code << std::endl;
+
+		if (keyEvent.key.code == sf::Keyboard::Tilde)
 		{
-			ImGui::SFML::ProcessEvent(sfEvent);
-
-			if (sfEvent.type == sf::Event::Closed)
-			{
-				window.close();
-			}
-			else if (sfEvent.type == sf::Event::Resized)
-			{
-				sf::FloatRect visibleArea(0, 0, (float)sfEvent.size.width, (float)sfEvent.size.height);
-				window.setView(sf::View(visibleArea));
-			}
-			else if (sfEvent.type == sf::Event::MouseButtonReleased && sfEvent.mouseButton.button == sf::Mouse::Button::Left)
-			{
-				std::cout << "Click" << std::endl;
-			}
-			else if (sfEvent.type == sf::Event::KeyReleased)
-			{
-				if (sfEvent.key.code == sf::Keyboard::Tilde)
-				{
-					b_IsDebugMode = !b_IsDebugMode;
-				}
-				else if (sfEvent.key.code == sf::Keyboard::Escape)
-				{
-					OptionsMenu::Instance().IsVisible = !OptionsMenu::Instance().IsVisible;
-				}
-			}
+			b_IsDebugMode = !b_IsDebugMode;
 		}
+		else if (keyEvent.key.code == sf::Keyboard::Escape)
+		{
+			auto& options = OptionsMenu::Instance();
+			options.IsVisible = !options.IsVisible;
+		}
+	});
 
-		uint32_t deltaTime = deltaClock.getElapsedTime().asMilliseconds();
-		ImGui::SFML::Update(window, deltaClock.restart());
-		m_ImGuiPanelManager.Update(deltaTime);
+	while (m_WindowManager.WindowIsOpen())
+	{
+		m_WindowManager.ProcessEvents();
+
+		sf::Time deltaTime = deltaClock.restart();
+		m_WindowManager.Update(deltaTime);
+		m_ImGuiPanelManager.Update(deltaTime.asMilliseconds());
 
 		if (!b_IsDebugMode)
 		{
-			m_ImGuiPanelManager.BuildVisiblePanels(window);
+			m_ImGuiPanelManager.BuildVisiblePanels(m_WindowManager.GetWindow());
 		}
 		else
 		{
-			m_ImGuiPanelManager.BuildAllPanels(window);
+			m_ImGuiPanelManager.BuildAllPanels(m_WindowManager.GetWindow());
 		}
 
-		window.clear();
-		ImGui::SFML::Render(window);
-
-		window.display();
-
-		if (!GameManager::Instance().IsRunning())
-		{
-			window.close();
-		}
+		m_WindowManager.DisplayWindow();
 	}
 
 	ImGui::SFML::Shutdown();
